@@ -1,5 +1,7 @@
-apt update
-apt install git curl wget python3 xz-utils llvm binutils -y
+set -ex
+
+sudo apt update
+sudo apt install git curl wget python3 xz-utils llvm binutils -y
 
 # activate emsdk
 git clone https://github.com/emscripten-core/emsdk.git
