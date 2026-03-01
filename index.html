@@ -1,41 +1,83 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>WebSource</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #111;
-      color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Launcher - Black Background</title>
+    <style>
+        body {
+    height: 100vh;
+    background: url("background.png") no-repeat center center fixed;
+    background-size: cover;
+}
+            /* Set the entire background to solid black */
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            /* Make the body a relative container for absolute children */
+            position: relative; 
+            overflow: hidden;
+        }
 
-    a {
-      padding: 15px 25px;
-      background: #2d6cdf;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      font-size: 18px;
-    }
+        /* Styling for the blue portal image */
+        .portal-image {
+            position: absolute; /* Position it absolutely within the body */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Center it on the screen */
+            z-index: 1; /* Place it in front of the black background, but behind UI */
+            max-width: 90vw; 
+            max-height: 90vh; 
+            opacity: 0.8; /* Make it slightly transparent to blend with the black */
+        }
 
-    a:hover {
-      background: #1f4fbf;
-    }
-  </style>
+        .launch-btn-container {
+            /* Main UI container, stacked above the portal image */
+            position: relative;
+            z-index: 2; /* Ensure UI is in front of the image and background */
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        .launch-btn {
+            background-color: #000;
+            border: 1px solid #00bfff; /* Blue border */
+            color: #00bfff; /* Blue text */
+            padding: 15px 45px; /* Slightly larger for better visibility */
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-family: monospace;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+            box-shadow: 0 0 15px rgba(0, 191, 255, 0.4); /* Subtle blue glow */
+        }
+
+        .launch-btn:hover {
+            background-color: #00bfff; /* Solid blue on hover */
+            color: black;
+            box-shadow: 0 0 30px rgba(0, 191, 255, 0.7);
+        }
+    </style>
 </head>
 <body>
 
-  <h1>WebSource</h1>
-  <p>Portal running in the browser.</p>
+    <img src="portal-9-logo-svg-vector.png" class="portal-image" alt="Portal Background">
 
-  <a href="hl2_launcher.html">Launch Game</a>
+    <div class="launch-btn-container">
+        <a href="https://websource.onrender.com/hl2_launcher.html" class="launch-btn">
+            LAUNCH
+        </a>
+    </div>
 
 </body>
 </html>
