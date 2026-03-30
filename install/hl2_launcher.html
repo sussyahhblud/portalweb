@@ -3,135 +3,174 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>ayo boi thats sus</title>
-    <style>body {
-  font-family: arial;
-  margin: 0;
-  padding: none;
-}
+    <title>Source Web Launcher - Portal Edition</title>
+    <style>
+      :root {
+        --portal-blue: #00bcff; /* Light blue accent */
+        --bg-dark: #0f0f0f;
+        --panel-bg: #1a1a1a;
+        --text-main: #e0e0e0;
+        --text-dim: #888;
+      }
 
-.emscripten { padding-right: 0; margin-left: auto; margin-right: auto; display: block; }
-div.emscripten { text-align: center; }
-div.emscripten_border { border: 1px solid black; }
-/* the canvas *must not* have any border or padding, or mouse coords will be wrong */
-canvas.emscripten { border: 0px none; background-color: black; }
+      body {
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        margin: 0;
+        background: radial-gradient(circle at center, #1b1b1b 0%, #0a0a0a 100%);
+        color: var(--text-main);
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
 
-#emscripten_logo {
-  display: inline-block;
-  margin: 0;
-  padding: 6px;
-  width: 265px;
-}
+      .launcher-container {
+        width: 90%;
+        max-width: 900px;
+        text-align: center;
+      }
 
-.spinner {
-  height: 30px;
-  width: 30px;
-  margin: 0;
-  margin-top: 20px;
-  margin-left: 20px;
-  display: inline-block;
-  vertical-align: top;
+      #emscripten_logo {
+        width: 180px;
+        filter: drop-shadow(0 0 10px rgba(0, 188, 255, 0.2));
+        margin-bottom: 20px;
+        transition: transform 0.3s ease;
+      }
 
-  -webkit-animation: rotation .8s linear infinite;
-  -moz-animation: rotation .8s linear infinite;
-  -o-animation: rotation .8s linear infinite;
-  animation: rotation 0.8s linear infinite;
+      #emscripten_logo:hover {
+        transform: scale(1.05);
+      }
 
-  border-left: 5px solid rgb(235, 235, 235);
-  border-right: 5px solid rgb(235, 235, 235);
-  border-bottom: 5px solid rgb(235, 235, 235);
-  border-top: 5px solid rgb(120, 120, 120);
+      .status-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 25px;
+      }
 
-  border-radius: 100%;
-  background-color: rgb(189, 215, 46);
-}
+      #status {
+        font-size: 14px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: var(--portal-blue); /* Updated to light blue */
+        font-weight: 600;
+      }
 
-@-webkit-keyframes rotation {
-  from {-webkit-transform: rotate(0deg);}
-  to {-webkit-transform: rotate(360deg);}
-}
-@-moz-keyframes rotation {
-  from {-moz-transform: rotate(0deg);}
-  to {-moz-transform: rotate(360deg);}
-}
-@-o-keyframes rotation {
-  from {-o-transform: rotate(0deg);}
-  to {-o-transform: rotate(360deg);}
-}
-@keyframes rotation {
-  from {transform: rotate(0deg);}
-  to {transform: rotate(360deg);}
-}
+      /* Sleek Light Blue Loading Bar */
+      #progress {
+        height: 6px;
+        width: 320px;
+        -webkit-appearance: none;
+        appearance: none;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+      }
 
-#status {
-  display: inline-block;
-  vertical-align: top;
-  margin-top: 30px;
-  margin-left: 20px;
-  font-weight: bold;
-  color: rgb(120, 120, 120);
-}
+      #progress::-webkit-progress-bar { background-color: transparent; }
+      #progress::-webkit-progress-value {
+        background: linear-gradient(90deg, #0077ff, #00bcff); /* Blue Gradient */
+        box-shadow: 0 0 10px rgba(0, 188, 255, 0.5);
+        border-radius: 10px;
+      }
+      #progress::-moz-progress-bar {
+        background: var(--portal-blue);
+        border-radius: 10px;
+      }
 
-#progress {
-  height: 20px;
-  width: 300px;
-}
+      .spinner {
+        height: 24px;
+        width: 24px;
+        border: 3px solid rgba(255, 255, 255, 0.1);
+        border-top: 3px solid var(--portal-blue); /* Blue spinner */
+        border-radius: 50%;
+        animation: rotation 0.8s linear infinite;
+      }
 
-#controls {
-  display: inline-block;
-  float: right;
-  vertical-align: top;
-  margin-top: 30px;
-  margin-right: 20px;
-}
+      @keyframes rotation {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
 
-#output {
-  width: 100%;
-  height: 200px;
-  margin: 0 auto;
-  margin-top: 10px;
-  border-left: 0px;
-  border-right: 0px;
-  padding-left: 0px;
-  padding-right: 0px;
-  display: block;
-  background-color: black;
-  color: white;
-  font-family: 'Lucida Console', Monaco, monospace;
-  outline: none;
-}
-</style>
-	<style>
-		body {
-			background: #111;
-			color: #fff;
-		}
+      .canvas-wrapper {
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+        background: #000;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        margin-bottom: 20px;
+      }
 
-		body #emscripten_logo {
-			width: 200px;
-		}
-	</style>
+      canvas.emscripten {
+        display: block;
+        max-width: 100%;
+        outline: none;
+      }
+
+      #output {
+        width: 100%;
+        height: 120px;
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        color: #aaa;
+        font-family: 'Consolas', 'Monaco', monospace;
+        font-size: 12px;
+        padding: 10px;
+        resize: none;
+        outline: none;
+        box-sizing: border-box;
+      }
+
+      /* Fullscreen Button Styling */
+      input[type="button"] {
+        background: transparent;
+        color: var(--portal-blue);
+        border: 1px solid var(--portal-blue);
+        padding: 5px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-bottom: 10px;
+        transition: all 0.2s;
+      }
+
+      input[type="button"]:hover {
+        background: var(--portal-blue);
+        color: #000;
+      }
+
+      .hidden { display: none !important; }
+    </style>
   </head>
   <body>
-    <a href="http://emscripten.org"><img id="emscripten_logo" src="assets/portal.svg"></a>
 
-    <div class="spinner" id='spinner'></div>
-    <div class="emscripten" id="status">Downloading...</div>
+    <div class="launcher-container">
+      <a href="http://emscripten.org">
+        <img id="emscripten_logo" src="assets/portal.svg" alt="Portal Logo">
+      </a>
 
-    <span id='controls'>
-      <span><input type="button" value="Fullscreen" onclick="Module.requestFullscreen(document.getElementById('pointerLock').checked, 
-                                                                                document.getElementById('resize').checked)">
-      </span>
-    </span>
+      <div class="status-container" id="loading-ui">
+        <div class="spinner" id="spinner"></div>
+        <div id="status">Initializing...</div>
+        <progress value="0" max="100" id="progress" hidden></progress>
+      </div>
 
-    <div class="emscripten">
-      <progress value="0" max="100" id="progress" hidden=1></progress>
+      <div class="controls">
+        <input type="button" value="Fullscreen" onclick="Module.requestFullscreen(false, false)">
+      </div>
+
+      <div class="canvas-wrapper">
+        <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
+      </div>
+
+      <textarea id="output" readonly></textarea>
     </div>
-
-    <div class="emscripten_border">
-      <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex=-1></canvas>
-    </div>
-    <textarea id="output" rows="8"></textarea>
 
     <script type='text/javascript'>
       var statusElement = document.getElementById('status');
@@ -139,31 +178,13 @@ canvas.emscripten { border: 0px none; background-color: black; }
       var spinnerElement = document.getElementById('spinner');
       var canvasElement = document.getElementById('canvas');
       var outputElement = document.getElementById('output');
-      if (outputElement) outputElement.value = ''; // clear browser cache
-
-      // As a default initial behavior, pop up an alert when webgl context is lost. To make your
-      // application robust, you may want to override this behavior before shipping!
-      // See http://www.khronos.org/registry/webgl/specs/latest/1.0/#5.15.2
-      canvasElement.addEventListener('webglcontextlost', (e) => {
-        alert('WebGL context lost. You will need to reload the page.');
-        e.preventDefault();
-      }, false);
-
-	  canvasElement.widthNative = screen.availWidth
-	  canvasElement.heightNative = screen.availHeight
+      var loadingUI = document.getElementById('loading-ui');
 
       var Module = {
         print(...args) {
-          console.log(...args);
-          // These replacements are necessary if you render to raw HTML
-          //text = text.replace(/&/g, "&amp;");
-          //text = text.replace(/</g, "&lt;");
-          //text = text.replace(/>/g, "&gt;");
-          //text = text.replace('\n', '<br>', 'g');
           if (outputElement) {
-            var text = args.join(' ');
-            outputElement.value += text + "\n";
-            outputElement.scrollTop = outputElement.scrollHeight; // focus on bottom
+            outputElement.value += args.join(' ') + "\n";
+            outputElement.scrollTop = outputElement.scrollHeight;
           }
         },
         canvas: canvasElement,
@@ -171,39 +192,19 @@ canvas.emscripten { border: 0px none; background-color: black; }
           Module.setStatus.last ??= { time: Date.now(), text: '' };
           if (text === Module.setStatus.last.text) return;
           var m = text.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/);
-          var now = Date.now();
-          // if this is a progress update, skip it if too soon
-          if (m && now - Module.setStatus.last.time < 30) return;
-          Module.setStatus.last.time = now;
-          Module.setStatus.last.text = text;
           if (m) {
             text = m[1];
             progressElement.value = parseInt(m[2])*100;
             progressElement.max = parseInt(m[4])*100;
             progressElement.hidden = false;
-            spinnerElement.hidden = false;
           } else {
             progressElement.value = null;
             progressElement.max = null;
             progressElement.hidden = true;
-            if (!text) spinnerElement.style.display = 'none';
+            if (!text) loadingUI.classList.add('hidden');
           }
           statusElement.innerHTML = text;
-        },
-        totalDependencies: 0,
-        monitorRunDependencies(left) {
-          this.totalDependencies = Math.max(this.totalDependencies, left);
-          Module.setStatus(left ? 'Preparing... (' + (this.totalDependencies-left) + '/' + this.totalDependencies + ')' : 'All downloads complete.');
         }
-      };
-      Module.setStatus('Downloading...');
-      window.onerror = (event) => {
-        // TODO: do not warn on ok events like simulating an infinite loop or exitStatus
-        Module.setStatus('Exception thrown, see JavaScript console');
-        spinnerElement.style.display = 'none';
-        Module.setStatus = (text) => {
-          if (text) console.error('[post-exception status] ' + text);
-        };
       };
     </script>
     <script async type="text/javascript" src="hl2_launcher.js"></script>
