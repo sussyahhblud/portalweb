@@ -54,6 +54,8 @@ Module['arguments'].push(
 	'-language', 'english',
 	'-windowed',
 	'+mat_hdr_level', '0',
+	'-width', '1280',
+	'-height', '720',
 	'+mat_colorcorrection', '1'
 )
 
