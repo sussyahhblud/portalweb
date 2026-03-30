@@ -30,6 +30,11 @@
       width: 90%;
       max-width: 900px;
       text-align: center;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
     }
 
     #emscripten_logo {
@@ -93,14 +98,17 @@
       border: 1px solid rgba(255, 255, 255, 0.05);
       margin-bottom: 20px;
       width: 100%;
-      max-width: 900px;
+      flex-grow: 1;
       position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     canvas.emscripten {
       display: block;
-      width: 100%;
-      height: auto; /* maintain aspect ratio */
+      max-width: 100%;
+      max-height: 100%;
     }
 
     #output {
@@ -117,6 +125,7 @@
       resize: none;
       outline: none;
       box-sizing: border-box;
+      margin-top: 10px;
     }
 
     .hidden { display: none !important; }
@@ -142,34 +151,50 @@
     <textarea id="output" readonly></textarea>
   </div>
 
-  <script type='text/javascript'>
+  <script type="text/javascript">
+    const canvasElement = document.getElementById('canvas');
+    const container = canvasElement.parentElement;
+
+    function resizeCanvas() {
+      const aspect = 4/3; // game aspect ratio
+      let width = container.clientWidth;
+      let height = width / aspect;
+
+      if (height > container.clientHeight) {
+        height = container.clientHeight;
+        width = height * aspect;
+      }
+
+      canvasElement.style.width = width + 'px';
+      canvasElement.style.height = height + 'px';
+      canvasElement.style.display = 'block';
+      canvasElement.style.marginLeft = 'auto';
+      canvasElement.style.marginRight = 'auto';
+      canvasElement.style.marginTop = ((container.clientHeight - height)/2) + 'px';
+      canvasElement.style.marginBottom = ((container.clientHeight - height)/2) + 'px';
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    document.addEventListener('fullscreenchange', resizeCanvas);
+    document.addEventListener('webkitfullscreenchange', resizeCanvas);
+    document.addEventListener('mozfullscreenchange', resizeCanvas);
+    document.addEventListener('MSFullscreenChange', resizeCanvas);
+    resizeCanvas();
+
     var statusElement = document.getElementById('status');
     var progressElement = document.getElementById('progress');
     var spinnerElement = document.getElementById('spinner');
-    var canvasElement = document.getElementById('canvas');
     var outputElement = document.getElementById('output');
     var loadingUI = document.getElementById('loading-ui');
 
-    // Dynamically adapt canvas to game's aspect ratio
-    function resizeCanvas() {
-      if (!Module || !Module.canvas) return;
-      const aspect = 4/3; // replace with your game aspect ratio if needed
-      const width = canvasElement.parentElement.clientWidth;
-      const height = width / aspect;
-      canvasElement.style.width = width + 'px';
-      canvasElement.style.height = height + 'px';
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
     var Module = {
+      canvas: canvasElement,
       print(...args) {
         if (outputElement) {
           outputElement.value += args.join(' ') + "\n";
           outputElement.scrollTop = outputElement.scrollHeight;
         }
       },
-      canvas: canvasElement,
       setStatus(text) {
         Module.setStatus.last ??= { time: Date.now(), text: '' };
         if (text === Module.setStatus.last.text) return;
@@ -189,6 +214,7 @@
       }
     };
   </script>
+
   <script async type="text/javascript" src="hl2_launcher.js"></script>
 </body>
 </html>
