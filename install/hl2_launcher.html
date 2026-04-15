@@ -3,215 +3,142 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title>Source Web Launcher - Portal Edition</title>
+  <title>ayo boi thats sus</title>
   <style>
-    :root {
-      --portal-blue: #00bcff;
-      --bg-dark: #0f0f0f;
-      --panel-bg: #1a1a1a;
-      --text-main: #e0e0e0;
-      --text-dim: #888;
+    body { font-family: arial; margin: 0; padding: none; background: #111; color: #fff; }
+    .emscripten { padding-right: 0; margin-left: auto; margin-right: auto; display: block; }
+    div.emscripten { text-align: center; }
+    div.emscripten_border { border: 1px solid black; }
+    canvas.emscripten { border: 0px none; background-color: black; }
+    #emscripten_logo { display: inline-block; margin: 0; padding: 6px; width: 200px; }
+
+    /* Spinner */
+    .spinner {
+      height: 30px; width: 30px; margin: 0; margin-top: 20px; margin-left: 20px; display: inline-block; vertical-align: top;
+      -webkit-animation: rotation .8s linear infinite;
+      -moz-animation: rotation .8s linear infinite;
+      -o-animation: rotation .8s linear infinite;
+      animation: rotation 0.8s linear infinite;
+      border-left: 5px solid rgb(235, 235, 235);
+      border-right: 5px solid rgb(235, 235, 235);
+      border-bottom: 5px solid rgb(235, 235, 235);
+      border-top: 5px solid #00bcff; /* Portal light blue top for spinning glow */
+      border-radius: 100%;
+      background-color: #00bcff; /* Portal light blue fill */
+    }
+    @-webkit-keyframes rotation { from {-webkit-transform: rotate(0deg);} to {-webkit-transform: rotate(360deg);} }
+    @-moz-keyframes rotation { from {-moz-transform: rotate(0deg);} to {-moz-transform: rotate(360deg);} }
+    @-o-keyframes rotation { from {-o-transform: rotate(0deg);} to {-o-transform: rotate(360deg);} }
+    @keyframes rotation { from {transform: rotate(0deg);} to {transform: rotate(360deg);} }
+
+    /* Status and output */
+    #status { display: inline-block; vertical-align: top; margin-top: 30px; margin-left: 20px; font-weight: bold; color: rgb(120, 120, 120); }
+    #output {
+      width: 100%; height: 200px; margin: 0 auto; margin-top: 10px;
+      border-left: 0px; border-right: 0px; padding-left: 0px; padding-right: 0px;
+      display: block; background-color: black; color: white;
+      font-family: 'Lucida Console', Monaco, monospace; outline: none;
     }
 
-    body {
-      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      margin: 0;
-      background: radial-gradient(circle at center, #1b1b1b 0%, #0a0a0a 100%);
-      color: var(--text-main);
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-
-    .launcher-container {
-      width: 90%;
-      max-width: 900px;
-      text-align: center;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      position: relative;
-    }
-
-    #emscripten_logo {
-      width: 180px;
-      filter: drop-shadow(0 0 10px rgba(0, 188, 255, 0.2));
-      margin-bottom: 20px;
-      transition: transform 0.3s ease;
-    }
-
-    #emscripten_logo:hover { transform: scale(1.05); }
-
-    .status-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 15px;
-      margin-bottom: 25px;
-    }
-
-    #status {
-      font-size: 14px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--portal-blue);
-      font-weight: 600;
-    }
-
+    /* Portal Light Blue Loading Bar */
     #progress {
-      height: 6px;
+      height: 12px; /* Thicker loading bar */
       width: 320px;
+      -webkit-appearance: none;
+      appearance: none;
       border: 1px solid rgba(255, 255, 255, 0.1);
       background-color: rgba(255, 255, 255, 0.05);
       border-radius: 10px;
       overflow: hidden;
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+      margin-top: 10px;
     }
-
     #progress::-webkit-progress-bar { background-color: transparent; }
     #progress::-webkit-progress-value {
       background: linear-gradient(90deg, #0077ff, #00bcff);
       box-shadow: 0 0 10px rgba(0, 188, 255, 0.5);
       border-radius: 10px;
     }
-    #progress::-moz-progress-bar { background: var(--portal-blue); border-radius: 10px; }
-
-    .spinner {
-      height: 24px;
-      width: 24px;
-      border: 3px solid rgba(255, 255, 255, 0.1);
-      border-top: 3px solid var(--portal-blue);
-      border-radius: 50%;
-      animation: rotation 0.8s linear infinite;
-    }
-    @keyframes rotation { from {transform: rotate(0deg);} to {transform: rotate(360deg);} }
-
-    .canvas-wrapper {
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-      background: #000;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      margin-bottom: 20px;
-      width: 100%;
-      flex-grow: 1;
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    canvas.emscripten {
-      display: block;
-      max-width: 100%;
-      max-height: 100%;
-    }
-
-    #output {
-      width: 100%;
-      height: 120px;
-      background: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 8px;
-      color: #aaa;
-      font-family: 'Consolas', 'Monaco', monospace;
-      font-size: 12px;
-      padding: 10px;
-      resize: none;
-      outline: none;
-      box-sizing: border-box;
-      margin-top: 10px;
-    }
-
-    .hidden { display: none !important; }
+    #progress::-moz-progress-bar { background-color: #00bcff; border-radius: 10px; }
   </style>
 </head>
-
 <body>
-  <div class="launcher-container">
-    <a href="http://emscripten.org">
-      <img id="emscripten_logo" src="assets/portal.svg" alt="Portal Logo">
-    </a>
+  <a href="http://emscripten.org"><img id="emscripten_logo" src="assets/portal.svg"></a>
 
-    <div class="status-container" id="loading-ui">
-      <div class="spinner" id="spinner"></div>
-      <div id="status">Initializing...</div>
-      <progress value="0" max="100" id="progress" hidden></progress>
-    </div>
+  <div class="spinner" id='spinner'></div>
+  <div class="emscripten" id="status">Downloading...</div>
 
-    <div class="canvas-wrapper">
-      <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
-    </div>
-
-    <textarea id="output" readonly></textarea>
+  <div class="emscripten">
+    <progress value="0" max="100" id="progress" hidden=1></progress>
   </div>
 
-  <script type="text/javascript">
-    const canvasElement = document.getElementById('canvas');
-    const container = canvasElement.parentElement;
+  <div class="emscripten_border">
+    <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex=-1></canvas>
+  </div>
 
-    function resizeCanvas() {
-      const aspect = 4/3; // game aspect ratio
-      let width = container.clientWidth;
-      let height = width / aspect;
+  <textarea id="output" rows="8"></textarea>
 
-      if (height > container.clientHeight) {
-        height = container.clientHeight;
-        width = height * aspect;
-      }
-
-      canvasElement.style.width = width + 'px';
-      canvasElement.style.height = height + 'px';
-      canvasElement.style.display = 'block';
-      canvasElement.style.marginLeft = 'auto';
-      canvasElement.style.marginRight = 'auto';
-      canvasElement.style.marginTop = ((container.clientHeight - height)/2) + 'px';
-      canvasElement.style.marginBottom = ((container.clientHeight - height)/2) + 'px';
-    }
-
-    window.addEventListener('resize', resizeCanvas);
-    document.addEventListener('fullscreenchange', resizeCanvas);
-    document.addEventListener('webkitfullscreenchange', resizeCanvas);
-    document.addEventListener('mozfullscreenchange', resizeCanvas);
-    document.addEventListener('MSFullscreenChange', resizeCanvas);
-    resizeCanvas();
-
+  <script type='text/javascript'>
     var statusElement = document.getElementById('status');
     var progressElement = document.getElementById('progress');
     var spinnerElement = document.getElementById('spinner');
+    var canvasElement = document.getElementById('canvas');
     var outputElement = document.getElementById('output');
-    var loadingUI = document.getElementById('loading-ui');
+    if (outputElement) outputElement.value = '';
+
+    canvasElement.addEventListener('webglcontextlost', (e) => {
+      alert('WebGL context lost. You will need to reload the page.');
+      e.preventDefault();
+    }, false);
+
+    canvasElement.widthNative = screen.availWidth;
+    canvasElement.heightNative = screen.availHeight;
 
     var Module = {
-      canvas: canvasElement,
       print(...args) {
+        console.log(...args);
         if (outputElement) {
-          outputElement.value += args.join(' ') + "\n";
+          var text = args.join(' ');
+          outputElement.value += text + "\n";
           outputElement.scrollTop = outputElement.scrollHeight;
         }
       },
+      canvas: canvasElement,
       setStatus(text) {
         Module.setStatus.last ??= { time: Date.now(), text: '' };
         if (text === Module.setStatus.last.text) return;
         var m = text.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/);
+        var now = Date.now();
+        if (m && now - Module.setStatus.last.time < 30) return;
+        Module.setStatus.last.time = now;
+        Module.setStatus.last.text = text;
         if (m) {
           text = m[1];
           progressElement.value = parseInt(m[2])*100;
           progressElement.max = parseInt(m[4])*100;
           progressElement.hidden = false;
+          spinnerElement.hidden = false;
         } else {
           progressElement.value = null;
           progressElement.max = null;
           progressElement.hidden = true;
-          if (!text) loadingUI.classList.add('hidden');
+          if (!text) spinnerElement.style.display = 'none';
         }
         statusElement.innerHTML = text;
+      },
+      totalDependencies: 0,
+      monitorRunDependencies(left) {
+        this.totalDependencies = Math.max(this.totalDependencies, left);
+        Module.setStatus(left ? 'Preparing... (' + (this.totalDependencies-left) + '/' + this.totalDependencies + ')' : 'All downloads complete.');
       }
+    };
+
+    Module.setStatus('Downloading...');
+
+    window.onerror = (event) => {
+      Module.setStatus('Exception thrown, see JavaScript console');
+      spinnerElement.style.display = 'none';
+      Module.setStatus = (text) => { if (text) console.error('[post-exception status] ' + text); };
     };
   </script>
 
