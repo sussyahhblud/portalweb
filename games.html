@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>games</title>
+
+    <link rel="icon" type="image/png" href="icon.png">
+
+    <style>
+        body {
+            height: 100vh;
+            background-color: #222222;
+            color: white;
+
+            font-family: system-ui, -apple-system, BlinkMacSystemFont,
+                         'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+                         'Open Sans', 'Helvetica Neue', sans-serif;
+
+            margin: 0;
+            padding: 0;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            text-align: center;
+            padding-top: 30px;
+        }
+
+        .title {
+            font-size: 34px;
+            margin-bottom: 30px;
+            text-transform: lowercase;
+            font-weight: bold;
+        }
+
+        .games {
+            display: flex;
+            gap: 60px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .game {
+            text-decoration: none;
+            color: #F7941E;
+        }
+
+        .game img {
+            width: 130px;
+            height: 130px;
+            object-fit: cover;
+            border-radius: 16px;
+            transition: 0.2s;
+        }
+
+        .game img:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 15px rgba(247, 148, 30, 0.4);
+        }
+
+        .game p {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .footer {
+            margin-top: 40px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        .footer a {
+            color: #F7941E;
+            text-decoration: none;
+        }
+        .portal p {
+            color: #25aae2;
+        }
+        .portal img:hover {
+            box-shadow: 0 0 15px rgba(37, 170, 226, 0.5); /* blue glow */
+        }
+        .game p {
+    margin-top: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0px;
+    transition: 0.2s;
+}
+
+.game:hover p {
+    transform: scale(1.05);
+}
+    </style>
+</head>
+
+<body>
+
+    <div class="title">games</div>
+
+    <div class="games">
+        <a class="game portal" href="portal.html">
+    <img src="https://cdn.jsdelivr.net/gh/sussyahhblud/portalweb@main/gamelogos/PortalLogo.png?v=1" alt="Portal">
+    <p>Portal</p>
+</a>
+
+        <a class="game" href="hl2.html">
+            <img src="https://cdn.jsdelivr.net/gh/sussyahhblud/portalweb@main/gamelogos/HL2Logo.png?v=1" alt="Half-Life 2">
+            <p>Half-Life 2</p>
+        </a>
+    </div>
+
+    <div class="footer">
+        <p>
+            back to <a href="index.html">home</a>
+        </p>
+    </div>
+
+</body>
+</html>
