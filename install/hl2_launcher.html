@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title>ayo boi thats sus</title>
+  <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/sussyahhblud/portalweb@main/gamelogos/PortalLogo.png">
+  <title>Portal</title>
   <style>
     body { font-family: arial; margin: 0; padding: none; background: #111; color: #fff; }
     .emscripten { padding-right: 0; margin-left: auto; margin-right: auto; display: block; }
@@ -12,7 +13,6 @@
     canvas.emscripten { border: 0px none; background-color: black; }
     #emscripten_logo { display: inline-block; margin: 0; padding: 6px; width: 200px; }
 
-    /* Spinner */
     .spinner {
       height: 30px; width: 30px; margin: 0; margin-top: 20px; margin-left: 20px; display: inline-block; vertical-align: top;
       -webkit-animation: rotation .8s linear infinite;
@@ -22,16 +22,15 @@
       border-left: 5px solid rgb(235, 235, 235);
       border-right: 5px solid rgb(235, 235, 235);
       border-bottom: 5px solid rgb(235, 235, 235);
-      border-top: 5px solid #00bcff; /* Portal light blue top for spinning glow */
+      border-top: 5px solid #00bcff;
       border-radius: 100%;
-      background-color: #00bcff; /* Portal light blue fill */
+      background-color: #00bcff;
     }
     @-webkit-keyframes rotation { from {-webkit-transform: rotate(0deg);} to {-webkit-transform: rotate(360deg);} }
     @-moz-keyframes rotation { from {-moz-transform: rotate(0deg);} to {-moz-transform: rotate(360deg);} }
     @-o-keyframes rotation { from {-o-transform: rotate(0deg);} to {-o-transform: rotate(360deg);} }
     @keyframes rotation { from {transform: rotate(0deg);} to {transform: rotate(360deg);} }
 
-    /* Status and output */
     #status { display: inline-block; vertical-align: top; margin-top: 30px; margin-left: 20px; font-weight: bold; color: rgb(120, 120, 120); }
     #output {
       width: 100%; height: 200px; margin: 0 auto; margin-top: 10px;
@@ -40,9 +39,8 @@
       font-family: 'Lucida Console', Monaco, monospace; outline: none;
     }
 
-    /* Portal Light Blue Loading Bar */
     #progress {
-      height: 12px; /* Thicker loading bar */
+      height: 12px;
       width: 320px;
       -webkit-appearance: none;
       appearance: none;
@@ -63,22 +61,22 @@
   </style>
 </head>
 <body>
-  <a href="http://emscripten.org"><img id="emscripten_logo" src="assets/portal.svg"></a>
+  <a href="/" target="_top"><img id="emscripten_logo" src="assets/portal.svg"></a>
 
-  <div class="spinner" id='spinner'></div>
+  <div class="spinner" id="spinner"></div>
   <div class="emscripten" id="status">Downloading...</div>
 
   <div class="emscripten">
-    <progress value="0" max="100" id="progress" hidden=1></progress>
+    <progress value="0" max="100" id="progress" hidden="1"></progress>
   </div>
 
   <div class="emscripten_border">
-    <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex=-1></canvas>
+    <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
   </div>
 
   <textarea id="output" rows="8"></textarea>
 
-  <script type='text/javascript'>
+  <script type="text/javascript">
     var statusElement = document.getElementById('status');
     var progressElement = document.getElementById('progress');
     var spinnerElement = document.getElementById('spinner');
@@ -114,8 +112,8 @@
         Module.setStatus.last.text = text;
         if (m) {
           text = m[1];
-          progressElement.value = parseInt(m[2])*100;
-          progressElement.max = parseInt(m[4])*100;
+          progressElement.value = parseInt(m[2]) * 100;
+          progressElement.max = parseInt(m[4]) * 100;
           progressElement.hidden = false;
           spinnerElement.hidden = false;
         } else {
@@ -129,7 +127,7 @@
       totalDependencies: 0,
       monitorRunDependencies(left) {
         this.totalDependencies = Math.max(this.totalDependencies, left);
-        Module.setStatus(left ? 'Preparing... (' + (this.totalDependencies-left) + '/' + this.totalDependencies + ')' : 'All downloads complete.');
+        Module.setStatus(left ? 'Preparing... (' + (this.totalDependencies - left) + '/' + this.totalDependencies + ')' : 'All downloads complete.');
       }
     };
 
@@ -142,6 +140,6 @@
     };
   </script>
 
-  <script async type="text/javascript" src="hl2_launcher.js"></script>
+  <script async type="text/javascript" src="portal_launcher.js"></script>
 </body>
 </html>
