@@ -1,11 +1,10 @@
-# Emscripten port for the source engine (only portal tested)
+# Emscripten port for the source engine
 
 ## hosted on [portal.undo.it](https://portal.undo.it)
 
-# Also, most of the time, the exception overthrown error means nothing, so don't worry about it
+# None of this work is mine so credits to [weliveinhell](https://github.com/weliveinhell) and [slqnt](https://github.com/slqntdevss)
 
-## list of broken stuff
+## list of broken stuff for portal
 + sound
 + saving/loading (works, TODO: save to browser storage)
 + sometimes render breaks (something related to lightmaps?)
-+ fullscreen html button (works through game settings)
